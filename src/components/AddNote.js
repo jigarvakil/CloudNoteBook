@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import noteContext from '../context/notes/noteContext';
 import Modal from 'react-bootstrap/Modal';
-export const AddNote = () => {
+export const AddNote = props => {
   const [isOpen, setIsOpen] = useState(false);
   const [note, setNote] = useState({
     title: '',
@@ -19,9 +19,10 @@ export const AddNote = () => {
   const handleSaveClick = e => {
     e.preventDefault();
     addNote(note.title, note.description, note.tag);
+    props.showAlert('Note Added successfully', 'success');
     setTimeout(() => {
       setIsOpen(false);
-    }, 500);
+    }, 200);
   };
   const handleOnchange = e => {
     setNote({ ...note, [e.target.name]: e.target.value });
@@ -49,7 +50,7 @@ export const AddNote = () => {
             >
               <form>
                 <Modal.Header>
-                  <Modal.Title>Hi</Modal.Title>
+                  <Modal.Title>Add Note</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
@@ -77,6 +78,18 @@ export const AddNote = () => {
                       onChange={handleOnchange}
                     />
                   </div>
+                  <div className="mb-3">
+                    <label htmlFor="tag" className="form-label">
+                      Tag
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="tag"
+                      name="tag"
+                      onChange={handleOnchange}
+                    />
+                  </div>
                 </Modal.Body>
 
                 <Modal.Footer>
@@ -89,7 +102,7 @@ export const AddNote = () => {
                     type="submit"
                     className="btn btn-primary btn-small"
                   >
-                    Save
+                    Save Note
                   </button>
                 </Modal.Footer>
               </form>

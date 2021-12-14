@@ -1,11 +1,15 @@
 import React, { useEffect } from 'react';
 
 import { Link, useLocation } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
 const Navbar = () => {
   let location = useLocation();
+  const navigate = useNavigate();
   useEffect(() => {}, [location]);
-
+  const handleLogoutClick = () => {
+    localStorage.removeItem('auth-token');
+    navigate('/login');
+  };
   return (
     <nav className="navbar sticky-top navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid">
@@ -43,6 +47,21 @@ const Navbar = () => {
                 Home
               </Link>
             </li>
+            <li
+              className={`nav-item ${
+                !localStorage.getItem('auth-token') ? 'd-none' : ''
+              }`}
+            >
+              <Link
+                className={`nav-link ${
+                  location.pathname === '/mynotes' ? 'active' : ''
+                }`}
+                aria-current="page"
+                to="/mynotes"
+              >
+                My-Notes
+              </Link>
+            </li>
             <li className="nav-item">
               <Link
                 className={`nav-link ${
@@ -55,17 +74,23 @@ const Navbar = () => {
               </Link>
             </li>
           </ul>
-          <form className="d-flex">
-            <input
-              className="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button className="btn btn-outline-success" type="submit">
-              Search
+          {!localStorage.getItem('auth-token') ? (
+            <div className="d-flex">
+              <Link to="/login" className="mx-2 btn btn-outline-primary">
+                Login
+              </Link>
+              <Link to="/signup" className="mx-2 btn btn-outline-danger">
+                Sign Up
+              </Link>
+            </div>
+          ) : (
+            <button
+              onClick={handleLogoutClick}
+              className="mx-2 btn btn-outline-danger"
+            >
+              Logout
             </button>
-          </form>
+          )}
         </div>
       </div>
     </nav>

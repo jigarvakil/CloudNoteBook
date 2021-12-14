@@ -2,11 +2,8 @@ import React, { useContext } from 'react';
 import noteContext from '../context/notes/noteContext';
 
 const NoteItem = props => {
-  const { note } = props;
+  const { note, updateNote } = props;
   const vrColor = 'gray';
-  const handleDeleteClick = () => {
-    console.log('clicked');
-  };
   const context = useContext(noteContext);
   const { deleteNote } = context;
   return (
@@ -33,12 +30,18 @@ const NoteItem = props => {
             <p className="card-text">{note.description}</p>
           </div>
           <div className="card-footer d-flex flex-row-reverse">
-            <div onClick={handleDeleteClick} className="btn btn-primary">
+            <div
+              onClick={() => {
+                updateNote(note);
+              }}
+              className="btn btn-primary"
+            >
               <i className="fa fa-edit"></i>
             </div>
             <div
               onClick={() => {
                 deleteNote(note._id);
+                props.showAlert('Note deleted successfully', 'success');
               }}
               className="mx-2 btn btn-danger"
             >

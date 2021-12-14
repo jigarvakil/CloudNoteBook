@@ -1,12 +1,10 @@
 import React from 'react';
-import Notes from './Notes';
 
 export const Home = props => {
   return (
     <>
       <br />
-
-      <Notes />
+      <h1>Welcome To CloudNoteBook!</h1>
     </>
   );
 };
